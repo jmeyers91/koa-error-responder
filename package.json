@@ -1,6 +1,6 @@
 {
   "name": "koa-error-responder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Koa middleware for handling errors.",
   "main": "lib/index.js",
   "scripts": {
