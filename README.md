@@ -1,5 +1,7 @@
 # Koa Error Responder
 
+[![Build Status](https://travis-ci.com/jmeyers91/koa-error-responder.svg?branch=master)](https://travis-ci.com/jmeyers91/koa-error-responder)
+
 Koa middleware for handling errors thrown while handling a request.
 
 ## Install
