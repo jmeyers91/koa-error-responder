@@ -1,11 +1,17 @@
-import { Context } from 'koa';
+import { Context } from "koa";
 
 export interface koaErrorResponderOptions {
   /**
    * When `debug` is enabled, internal server error (status code `500`) messages will
-   * be included in responses.
+   * be included in responses. Defaults to `false`.
    */
-  debug: boolean;
+  debug?: boolean;
+
+  /**
+   * Whether or not to throw caught errors to allow handling upstream.
+   * Defaults to `false`.
+   */
+  throwError?: boolean;
 }
 
 export type koaErrorResponderMiddleware = (
@@ -19,11 +25,11 @@ export type koaErrorResponderMiddleware = (
  * a `status` or `statusCode` field.
  */
 export default function koaErrorResponder(
-  options: koaErrorResponderOptions
+  options: koaErrorResponderOptions = {}
 ): koaErrorResponderMiddleware {
-  const { debug } = options;
+  const { debug = false, throwError = false } = options;
 
-  return async function pushStateMiddleware(context, next) {
+  return async function koaErrorResponderMiddleware(context, next) {
     try {
       await next();
     } catch (error) {
@@ -35,10 +41,10 @@ export default function koaErrorResponder(
         if (debug) {
           errorMessage = `Internal server error - ${error.message}`;
         } else {
-          errorMessage = 'Internal server error.';
+          errorMessage = "Internal server error.";
         }
       } else {
-        errorMessage = error.message || 'Unknown error.';
+        errorMessage = error.message || "Unknown error.";
         errorData = error;
       }
 
@@ -50,7 +56,9 @@ export default function koaErrorResponder(
           : { message: errorMessage, statusCode }
       };
 
-      throw error;
+      if (throwError) {
+        throw error;
+      }
     }
   };
 }
