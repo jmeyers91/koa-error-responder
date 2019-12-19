@@ -1,11 +1,12 @@
 {
   "name": "koa-error-responder",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Koa middleware for handling errors.",
   "main": "lib/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "build": "tsc"
+    "build": "tsc",
+    "publish": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
